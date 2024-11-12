@@ -2,17 +2,17 @@ package src;
 
 public class Ficha {
 
-    private boolean color;
+    private int color;
 
-    public Ficha(boolean color) {
+    public Ficha(int color) {
         this.color = color;
     }
 
-    public boolean getColor(){
+    public int getColor(){
         return this.color;
     }
 
-    public void setColor(boolean color) {
+    public void setColor(int color) {
         this.color = color;
     }
 }
