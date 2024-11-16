@@ -1,10 +1,11 @@
 package src;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Jugador {
+public class Jugador implements Serializable {
 
     private String nombre;
     private int ficha; //Identifica al jugador con un numero (1 ó 2)
@@ -30,10 +31,14 @@ public class Jugador {
         return this.haGanado;
     }
 
+    public int getVictorias() {
+        return this.victorias;
+    }
+
     public void registrarVictorias(){
         this.haGanado = true;
         this.victorias++;
-        System.out.println("¡Felicidades, "+ this.nombre + " ha ganado la partida!");
+        System.out.println("¡Felicidades, "+ this.nombre + " has ganado la partida!");
     }
 
     public boolean puedeMover(int columna, int[][] tablero) {
@@ -43,21 +48,30 @@ public class Jugador {
 
     public int elegirColumna(int[][] tablero){
         Scanner sc = new Scanner(System.in);
-        int columna;
+        int columna = -1;
 
         do{
             do {
                 System.out.println("Jugador: "+this.nombre+" (Ficha "+this.ficha+"), elige una columna: ");
-                columna = sc.nextInt();
 
-                if(!(columna >= 0 && columna <= 6)){
+                try{
+                    String entrada = sc.nextLine();
+                    columna = Integer.parseInt(entrada);
+
+                    if(!(columna >= 0 && columna <= 6)){
+                        System.out.println("El numero "+columna+" no es correcto. Esta fuera de rango.");
+                        System.out.println("Introduce un numero entre 0 y 6.");
+                    }
+
+                } catch (NumberFormatException e) {
                     System.out.println("El numero de columna que has introducido no existe.");
                     System.out.println("Introduce un numero entre 0 y 6.");
                 }
+
             }while (!(columna >= 0 && columna <= 6));
 
             if(!puedeMover(columna, tablero)){
-                System.out.println("La columna introducida no esta completa, elige otra.");
+                System.out.println("La columna introducida esta completa, elige otra.");
             }
 
         }while (!puedeMover(columna, tablero));
