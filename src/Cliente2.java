@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Cliente {
+public class Cliente2 {
 
     private static final String HOST = "localhost";
     private static final int PUERTO = 6666;
