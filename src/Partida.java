@@ -7,8 +7,7 @@ import java.net.Socket;
 
 public class Partida implements Runnable{
 
-    private Socket jugador1;
-    private Socket jugador2;
+    private Socket jugador1, jugador2;
 
     public Partida(Socket j1, Socket j2){
         this.jugador1 = j1;
