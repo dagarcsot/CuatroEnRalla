@@ -28,10 +28,11 @@ public class Cliente2 {
 
                     do{
                         //Mandamos menu
-                        System.out.println("Elige la opcion que quiera escoger: ");
+                        System.out.println("\n Opciones de juego: ");
                         System.out.println("1.- Jugar contra la IA");
                         System.out.println("2.- Jugar contra otro jugador online");
                         System.out.println("3.- Salir del juego");
+                        System.out.print("Elige la opcion que quiera escoger: ");
 
                         try{
                             //Recibimos el numero
@@ -60,6 +61,9 @@ public class Cliente2 {
                     //Entramos en la opcion que sea
                     switch (opcion) {
                         case 1:{
+                            String respuesta = (String) ois.readObject();
+                            //Iniciamos la partida
+                            new PartidaIA().partida();
                             break;
                         }
                         case 2:{ //Modo multijugador

@@ -16,8 +16,8 @@ public class Cliente {
 
     public static void main(String[] args) {
         try (Socket cliente = new Socket(HOST, PUERTO)) {
-            System.out.println("Bienvenido al juego del 4 en raya :)");
             System.out.println("Conectado al servidor en el puerto " + cliente.getLocalPort() + "\n");
+            System.out.println("Bienvenido al juego del 4 en raya :)");
 
             try (ObjectOutputStream oos = new ObjectOutputStream(cliente.getOutputStream());
                  ObjectInputStream ois = new ObjectInputStream(cliente.getInputStream())) {
@@ -28,7 +28,7 @@ public class Cliente {
 
                     do{
                         //Mandamos menu
-                        System.out.println("Opciones de juego: ");
+                        System.out.println("\n Opciones de juego: ");
                         System.out.println("1.- Jugar contra la IA");
                         System.out.println("2.- Jugar contra otro jugador online");
                         System.out.println("3.- Salir del juego");
@@ -61,7 +61,11 @@ public class Cliente {
                     //Entramos en la opcion que sea
                     switch (opcion) {
                         case 1:{
-                            //Implementar la logica
+                            //Leemos la respuesta del servidor y mostramos
+                            String respuesta = (String) ois.readObject();
+                            System.out.println(respuesta);
+                            //Iniciamos la partida
+                            new PartidaIA().partida();
                             break;
                         }
                         case 2:{ //Modo multijugador
@@ -125,7 +129,7 @@ public class Cliente {
                             break;
                         }
                         case 3:{
-                            System.out.println("Gracias por jugar al 4 en ralla");
+                            System.out.println("\n Gracias por jugar al 4 en ralla");
                             System.out.println("Vuelva pronto :)");
                             break;
                         }

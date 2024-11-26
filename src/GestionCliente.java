@@ -19,32 +19,48 @@ public class GestionCliente implements Runnable{
         try (ObjectOutputStream oos = new ObjectOutputStream(cliente.getOutputStream());
              ObjectInputStream ois = new ObjectInputStream(cliente.getInputStream())){
 
-            //Leer la opcion que el cliente ha seleccionado
-            int opcion = (Integer) ois.readObject();
+            int opcion;
 
-            switch(opcion){
-                case 1:{ //Jugar contra la IA
-                    oos.writeObject("Modo contra la máquina no está gestionado por el servidor. Cerrando conexión.");
+            // Continuar hasta que el cliente decida salir
+            while (true) {
+                // Leer la opción que el cliente ha seleccionado
+                opcion = (Integer) ois.readObject();
+
+                if (opcion == 3) {
+                    // El cliente eligió "Salir", cerramos la conexión
+                    oos.writeObject("Gracias por jugar, cerrando conexión.");
                     oos.flush();
-                    break;
+                    break; // Salir del bucle, lo que cerrará la conexión después
                 }
-                case 2:{ //Modo multijugador
-                    ServidorPartidas.getInstancia().gestionarMultijugador(cliente, oos, ois);
-                    break;
-                }
-                default:{
-                    oos.writeObject("Opción no válida. Cerrando conexión.");
-                    oos.flush();
-                    break;
+
+                switch (opcion) {
+                    case 1: { // Jugar contra la IA
+                        oos.writeObject("\nIniciando partida contra la IA...");
+                        oos.flush();
+                        // Aquí iría la lógica para gestionar la partida contra la IA
+                        break;
+                    }
+                    case 2: { // Modo multijugador
+                        ServidorPartidas.getInstancia().gestionarMultijugador(cliente, oos, ois);
+                        break;
+                    }
+                    default: {
+                        oos.writeObject("Opción no válida. Elige una opción válida.");
+                        oos.flush();
+                        break;
+                    }
                 }
             }
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
+            // Solo cerramos la conexión si el cliente ha decidido salir
             try {
-                cliente.close();
-            }catch (IOException e){
+                if (!cliente.isClosed()) {
+                    cliente.close();
+                }
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
