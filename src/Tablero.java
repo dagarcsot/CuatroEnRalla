@@ -27,6 +27,24 @@ public class Tablero implements Serializable {
         return this.tablero;
     }
 
+    public int encontrarFilaDisponible(int columna) {
+        for (int fila = tablero.length - 1; fila >= 0; fila--) {
+            if (tablero[fila][columna] == 0) { // 0 representa una celda vacía
+                return fila;
+            }
+        }
+        return -1; // Devuelve -1 si la columna está llena
+    }
+
+    public boolean tableroLleno() {
+        for (int columna = 0; columna < tablero[0].length; columna++) {
+            if (tablero[0][columna] == 0) { // Si la celda superior de una columna está vacía
+                return false;
+            }
+        }
+        return true; // Todas las columnas están llenas
+    }
+
     //Post: dibuja el tablero del 4 en ralla
     public void imprimirTablero() {
         for (int i = 0; i < FILAS; i++) {
